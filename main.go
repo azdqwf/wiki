@@ -61,7 +61,13 @@ func main() {
 		http.FileServer(http.Dir("."))))
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		if m := validPath.Find([]byte(r.URL.Path)); m == nil {
+		if r.URL.Path == "/" {
+			http.Redirect(w, r, "/view/FrontPage", http.StatusFound)
+			return
+		}
+
+		m := validPath.FindStringSubmatch((r.URL.Path))
+		if m == nil {
 			http.Error(w, "not found", http.StatusNotFound)
 			return
 		}
