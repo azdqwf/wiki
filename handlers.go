@@ -1,16 +1,10 @@
 package main
 
 import (
-	"log"
 	"net/http"
 )
 
 func viewHandler(w http.ResponseWriter, r *http.Request, title string) {
-	title, err := getTitle(w, r)
-	if err != nil {
-		log.Println(err)
-		return
-	}
 	p, err := loadPage(title)
 	if err != nil {
 		http.Redirect(w, r, "/edit/"+title, http.StatusFound)
